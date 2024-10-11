@@ -17,6 +17,7 @@ public class StudentDAOJpaImpl implements StudentDAO {
     public StudentDAOJpaImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
     @Override
     public List<Student> findAll() {
         TypedQuery<Student> query = entityManager.createQuery("from Student", Student.class);
