@@ -34,7 +34,12 @@ public class employee {
     @NotBlank(message = "Email musí byť zadaný.")
     @Email(message = "Email musí byť, validný.")
     @Size(max = 100, message = "Email, by mal byť menej ako 100 znakov.")
-    @Pattern(regexp = "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]$", message = "Email should be valid and in the format string@string.string")
+    @Pattern(regexp = "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]", message = "Email should be valid and in the format string@string.string")
+    /*
+    ^[\\w.%+-]+: The local part (before the @) allows for one or more alphanumeric characters, dots, percentages, pluses, or hyphens.
+    @[\\w.-]+: The domain part (after the @ but before the dot) allows for one or more alphanumeric characters, dots, or hyphens.
+    \\.[a-zA-Z]: This ensures at least one alphabetic character after the dot.
+    */
     private String email;
 
     @Column(name = "phone")
@@ -48,7 +53,7 @@ public class employee {
     private String jobTitle;
 
     @Column(name = "salary")
-    @NotBlank(message = "Plat, musí byť zadaný.")
+    @NotNull(message = "Plat, musí byť zadaný.")
     @DecimalMin(value = "0.0", inclusive = true, message = "Plat, musí byť větší než 0.")
     /*
     inclusive = true: Allows the value to be exactly the limit (in your case, salary can be exactly 0.0).
