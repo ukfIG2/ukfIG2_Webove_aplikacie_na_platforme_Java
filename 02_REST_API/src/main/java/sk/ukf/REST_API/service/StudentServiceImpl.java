@@ -6,36 +6,38 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.ukf.REST_API.dao.StudentDAO;
 import sk.ukf.REST_API.entity.Student;
+import sk.ukf.REST_API.repository.StudentRepository;
 
 import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private StudentDAO studentDAO;
+    private StudentRepository studentRepository;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO) {
-        this.studentDAO = studentDAO;
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
     @Override
     public List<Student> findAll() {
-        return studentDAO.findAll();
+        return studentRepository.findAll();
     }
 
     @Override
     public Student findById(int id) {
-        return studentDAO.findById(id);
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
     }
 
     @Transactional
     @Override
     public Student save(Student student) {
-       return studentDAO.save(student);    }
+       return studentRepository.save(student);    }
 
     @Transactional
     @Override
     public void deleteById(int id) {
-        studentDAO.deleteById(id);
+        studentRepository.deleteById(id);
     }
 }
 
