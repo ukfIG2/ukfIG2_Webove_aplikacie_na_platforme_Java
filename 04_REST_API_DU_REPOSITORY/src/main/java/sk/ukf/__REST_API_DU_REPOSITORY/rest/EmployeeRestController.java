@@ -38,9 +38,13 @@ public class EmployeeRestController {
     // GET: Find employee by id
     @GetMapping("/employee/{id}")
     public ResponseEntity<Object> findById(@PathVariable int id) {
-        Employee findEmployee = employeeService.findById(id);
+        System.out.println("EmployeeRestController -> findById(" + id + ")");
 
-        if (findEmployee == null) {
+        try {
+            Employee findEmployee = employeeService.findById(id);
+            System.out.println("EmployeeRestController -> findEmployee " + findEmployee.getFirstName() + " " + findEmployee.getLastName());
+            return new ResponseEntity<>(findEmployee, HttpStatus.OK);
+        } catch (RuntimeException e) {
             System.out.println("EmployeeRestController -> findById(" + id + ") Not found");
             ResponseStatus errorResponse = new ResponseStatus(
                     HttpStatus.NOT_FOUND.value(),
@@ -48,10 +52,17 @@ public class EmployeeRestController {
                     LocalDateTime.now()
             );
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+            ResponseStatus errorResponse = new ResponseStatus(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "An unexpected error occurred: " + e.getMessage(),
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(findEmployee, HttpStatus.OK);
     }
+
 
     // POST: Save a new employee
     @PostMapping("/employee")
@@ -83,65 +94,105 @@ public class EmployeeRestController {
     public ResponseEntity<Object> updateEmployee(@PathVariable int id, @Valid @RequestBody Employee employee, BindingResult result) {
         System.out.println("EmployeeRestController -> updateEmployee(" + id + ")");
 
-        // Check if employee exists
-        Employee existingEmployee = employeeService.findById(id);
-        if (existingEmployee == null) {
+        try {
+            // Validate incoming data
+            if (result.hasErrors()) {
+                StringBuilder sb = new StringBuilder();
+                for (ObjectError error : result.getAllErrors()) {
+                    sb.append(error.getDefaultMessage()).append("\n");
+                }
+                ResponseStatus errorResponse = new ResponseStatus(
+                        HttpStatus.BAD_REQUEST.value(),
+                        sb.toString(),
+                        LocalDateTime.now()
+                );
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            }
+
+            // Check if employee exists
+            Employee existingEmployee = employeeService.findById(id);
+            if (existingEmployee == null) {
+                ResponseStatus errorResponse = new ResponseStatus(
+                        HttpStatus.NOT_FOUND.value(),
+                        "Employee id (" + id + ") not found",
+                        LocalDateTime.now()
+                );
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            }
+
+            employee.setId(id);
+            Employee updatedEmployee = employeeService.save(employee);
+
+            ResponseStatus successResponse = new ResponseStatus(
+                    HttpStatus.OK.value(),
+                    "Employee updated successfully with id " + updatedEmployee.getId(),
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(successResponse, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            System.out.println("EmployeeRestController -> updateEmployee: " + e.getMessage());
             ResponseStatus errorResponse = new ResponseStatus(
                     HttpStatus.NOT_FOUND.value(),
                     "Employee id (" + id + ") not found",
                     LocalDateTime.now()
             );
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-        }
-
-        // Validate incoming data
-        if (result.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (ObjectError error : result.getAllErrors()) {
-                sb.append(error.getDefaultMessage()).append("\n");
-            }
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
             ResponseStatus errorResponse = new ResponseStatus(
-                    HttpStatus.BAD_REQUEST.value(),
-                    sb.toString(),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "An unexpected error occurred: " + e.getMessage(),
                     LocalDateTime.now()
             );
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        // Update the employee
-        employee.setId(id); // Ensure the ID stays consistent
-        employeeService.save(employee);
-        ResponseStatus successResponse = new ResponseStatus(
-                HttpStatus.OK.value(),
-                "Employee updated successfully",
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
+
 
     // DELETE: Delete an employee by id
     @DeleteMapping("/employee/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable int id) {
         System.out.println("EmployeeRestController -> deleteEmployee(" + id + ")");
 
-        // Check if employee exists
-        Employee existingEmployee = employeeService.findById(id);
-        if (existingEmployee == null) {
+        try {
+            Employee existingEmployee = employeeService.findById(id);
+            if (existingEmployee == null) {
+                ResponseStatus errorResponse = new ResponseStatus(
+                        HttpStatus.NOT_FOUND.value(),
+                        "Employee id (" + id + ") not found",
+                        LocalDateTime.now()
+                );
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            }
+
+            // Perform deletion
+            employeeService.deleteById(id);
+
+            ResponseStatus successResponse = new ResponseStatus(
+                    HttpStatus.OK.value(),
+                    "Employee deleted successfully",
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(successResponse, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            System.out.println("EmployeeRestController -> deleteEmployee: " + e.getMessage());
             ResponseStatus errorResponse = new ResponseStatus(
                     HttpStatus.NOT_FOUND.value(),
                     "Employee id (" + id + ") not found",
                     LocalDateTime.now()
             );
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+            ResponseStatus errorResponse = new ResponseStatus(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "An unexpected error occurred: " + e.getMessage(),
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        // Perform deletion
-        employeeService.deleteById(id);
-        ResponseStatus successResponse = new ResponseStatus(
-                HttpStatus.OK.value(),
-                "Employee deleted successfully",
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 }
+
