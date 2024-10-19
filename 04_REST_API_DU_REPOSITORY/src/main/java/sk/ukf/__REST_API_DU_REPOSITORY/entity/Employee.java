@@ -35,7 +35,7 @@ public class Employee {
     @NotBlank(message = "Email musí byť zadaný.")
     @Email(message = "Email musí byť, validný.")
     @Size(max = 100, message = "Email, by mal byť menej ako 100 znakov.")
-    @Pattern(regexp = "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]", message = "Email should be valid and in the format string@string.string")
+    @Pattern(regexp = "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]+", message = "Email should be valid and in the format string@string.string")
     /*
     ^[\\w.%+-]+: The local part (before the @) allows for one or more alphanumeric characters, dots, percentages, pluses, or hyphens.
     @[\\w.-]+: The domain part (after the @ but before the dot) allows for one or more alphanumeric characters, dots, or hyphens.
