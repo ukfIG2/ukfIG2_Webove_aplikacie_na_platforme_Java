@@ -51,7 +51,9 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO{
     public void deleteById(int id) {
         Employee employee = entityManager.find(Employee.class, id);
         if (employee != null) {
+
             System.out.println("EmployeeDAOJpaImpl -> deleteById(" + id + ")");
+
             entityManager.remove(employee);
         } else {
             System.out.println("Employee not found with id: " + id);
