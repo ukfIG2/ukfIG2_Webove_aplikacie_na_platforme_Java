@@ -67,12 +67,12 @@ public class Employee {
     @Column(name = "full_time")
     @NotNull(message = "Musíš zadať, či si na plný uväzok, alebo nie.")
     //in database, it is tinyint
-    private boolean fullTime;
+    private Boolean fullTime;
 
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName, LocalDate birthDate, String email, String phone, String jobTitle, Double salary, boolean fullTime) {
+    public Employee(int id, String firstName, String lastName, LocalDate birthDate, String email, String phone, String jobTitle, Double salary, Boolean fullTime) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -148,11 +148,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public boolean isFullTime() {
+    public Boolean isFullTime() {
         return fullTime;
     }
 
-    public void setFullTime(boolean fullTime) {
+    public void setFullTime(Boolean fullTime) {
         this.fullTime = fullTime;
     }
 }
