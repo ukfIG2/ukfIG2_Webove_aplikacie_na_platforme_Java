@@ -1,75 +1,147 @@
 package sk.ukf.__REST_API_DU_REPOSITORY.rest;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
 import sk.ukf.__REST_API_DU_REPOSITORY.entity.Employee;
 import sk.ukf.__REST_API_DU_REPOSITORY.service.EmployeeService;
+import sk.ukf.__REST_API_DU_REPOSITORY.entity.ResponseStatus;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class EmployeeRestController {
 
-    private EmployeeService employeeService;
+    private final View error;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public EmployeeRestController(EmployeeService employeeService) {
+    public EmployeeRestController(EmployeeService employeeService, View error) {
         this.employeeService = employeeService;
+        this.error = error;
     }
 
+    // GET: Get all employees
     @GetMapping("/employees")
-    public List<Employee> FindAll(){
-
-        System.out.println("EmployeeRestController -> FindAll(");
-
-        return employeeService.findAll();
+    public ResponseEntity<List<Employee>> findAll() {
+        System.out.println("EmployeeRestController -> findAll()");
+        return new ResponseEntity<>(employeeService.findAll(), HttpStatus.OK);
     }
 
+    // GET: Find employee by id
     @GetMapping("/employee/{id}")
-    public Employee FindById(@PathVariable int id){
+    public ResponseEntity<Object> findById(@PathVariable int id) {
+        Employee findEmployee = employeeService.findById(id);
 
-        Employee employee = employeeService.findById(id);
-
-        if(employee == null){
-            System.out.println("EmployeeRestController -> FindById(" + id + ") Not found");
-            throw new RuntimeException("Employee not found for id " + id);
+        if (findEmployee == null) {
+            System.out.println("EmployeeRestController -> findById(" + id + ") Not found");
+            ResponseStatus errorResponse = new ResponseStatus(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Employee id (" + id + ") not found",
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
-        return employee;
+        return new ResponseEntity<>(findEmployee, HttpStatus.OK);
     }
 
+    // POST: Save a new employee
     @PostMapping("/employee")
-    public Employee employee(@RequestBody Employee employee) {
-        //employee.setId(0);
-        System.out.println("EmployeeRestController -> employee(" + employee.getFirstName() + " " + employee.getLastName() + ")");
-        return employeeService.save(employee);
+    public ResponseEntity<Object> save(@Valid @RequestBody Employee employee, BindingResult result) {
+        System.out.println("EmployeeRestController -> save(" + employee.getFirstName() + " " + employee.getLastName() + ")");
+        if (result.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for (ObjectError error : result.getAllErrors()) {
+                sb.append(error.getDefaultMessage()).append("\n");
+            }
+            ResponseStatus errorResponse = new ResponseStatus(
+                    HttpStatus.BAD_REQUEST.value(),
+                    sb.toString(),
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+        employeeService.save(employee);
+        ResponseStatus successResponse = new ResponseStatus(
+                HttpStatus.OK.value(),
+                "Employee saved successfully",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
+    // PUT: Update an existing employee
     @PutMapping("/employee/{id}")
-    public Employee updateEmployee(@PathVariable int id, @RequestBody Employee employee) {
-        Employee existingEmployee = employeeService.findById(id);
-
-        if (existingEmployee == null){
-            System.out.println("EmployeeRestController -> updateEmployee(" + id + ") Not found");
-            throw new RuntimeException("Employee not found for id " + id);
-        }
-        //employee.setId(0);
+    public ResponseEntity<Object> updateEmployee(@PathVariable int id, @Valid @RequestBody Employee employee, BindingResult result) {
         System.out.println("EmployeeRestController -> updateEmployee(" + id + ")");
-        Employee updatedEmployee = employeeService.save(employee);
-        return updatedEmployee;
-    }
 
-    @DeleteMapping("/employee/{id}")
-    public void deleteEmployee(@PathVariable int id) {
+        // Check if employee exists
         Employee existingEmployee = employeeService.findById(id);
-
-        if (existingEmployee == null){
-            System.out.println("EmployeeRestController -> deleteEmployee(" + id + ") Not found");
-            throw new RuntimeException("Employee not found for id " + id);
+        if (existingEmployee == null) {
+            ResponseStatus errorResponse = new ResponseStatus(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Employee id (" + id + ") not found",
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
-        employeeService.deleteById(id);
-        System.out.println("EmployeeRestController -> deleteEmployee(" + id + ")");
+
+        // Validate incoming data
+        if (result.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for (ObjectError error : result.getAllErrors()) {
+                sb.append(error.getDefaultMessage()).append("\n");
+            }
+            ResponseStatus errorResponse = new ResponseStatus(
+                    HttpStatus.BAD_REQUEST.value(),
+                    sb.toString(),
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        // Update the employee
+        employee.setId(id); // Ensure the ID stays consistent
+        employeeService.save(employee);
+        ResponseStatus successResponse = new ResponseStatus(
+                HttpStatus.OK.value(),
+                "Employee updated successfully",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
+    // DELETE: Delete an employee by id
+    @DeleteMapping("/employee/{id}")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable int id) {
+        System.out.println("EmployeeRestController -> deleteEmployee(" + id + ")");
+
+        // Check if employee exists
+        Employee existingEmployee = employeeService.findById(id);
+        if (existingEmployee == null) {
+            ResponseStatus errorResponse = new ResponseStatus(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Employee id (" + id + ") not found",
+                    LocalDateTime.now()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        // Perform deletion
+        employeeService.deleteById(id);
+        ResponseStatus successResponse = new ResponseStatus(
+                HttpStatus.OK.value(),
+                "Employee deleted successfully",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
 }
