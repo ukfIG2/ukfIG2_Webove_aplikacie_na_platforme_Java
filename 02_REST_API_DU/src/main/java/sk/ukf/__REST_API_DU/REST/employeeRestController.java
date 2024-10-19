@@ -88,11 +88,11 @@ public ResponseEntity<Object> getEmployees(@PathVariable int id) {
             );
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        Employee.setId(0);
+        //Employee.setId(0);
         employeeService.save(Employee);
         ResponseStatus successResponse = new ResponseStatus(
                 HttpStatus.OK.value(),
-                "Employee saved successfully with id " + Employee.getId(),
+                "Employee saved successfully.",
                 System.currentTimeMillis()
         );
                 return new ResponseEntity<>(successResponse, HttpStatus.OK);
@@ -136,7 +136,7 @@ public ResponseEntity<Object> getEmployees(@PathVariable int id) {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
-        employee.setId(id);
+        //employee.setId(id);
         employee updatedEmployee = employeeService.save(employee);
 
         ResponseStatus successResponse = new ResponseStatus(
