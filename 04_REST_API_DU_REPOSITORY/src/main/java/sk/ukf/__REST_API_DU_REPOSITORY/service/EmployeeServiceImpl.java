@@ -5,17 +5,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.ukf.__REST_API_DU_REPOSITORY.dao.EmployeeDAO;
 import sk.ukf.__REST_API_DU_REPOSITORY.entity.Employee;
+import sk.ukf.__REST_API_DU_REPOSITORY.repository.EmployeeRepository;
 
 import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDAO employeeDAO;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -23,27 +24,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         System.out.println("EmployeeServiceImpl -> findAll(");
 
-        return employeeDAO.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
     public Employee findById(int id) {
         System.out.println("EmployeeServiceImpl -> findById(" + id + ")");
-        return employeeDAO.findById(id);
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
     }
 
     @Transactional
     @Override
     public Employee save(Employee employee) {
         System.out.println("EmployeeServiceImpl -> save(" + employee.getFirstName() + " " + employee.getLastName() + ")");
-        return employeeDAO.save(employee);
+        return employeeRepository.save(employee);
     }
 
     @Transactional
     @Override
     public void deleteById(int id) {
         System.out.println("EmployeeServiceImpl -> deleteById(" + id + ")");
-        employeeDAO.deleteById(id);
+        employeeRepository.deleteById(id);
+
 
     }
 }
