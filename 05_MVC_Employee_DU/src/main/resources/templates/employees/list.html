@@ -15,7 +15,7 @@
 
     <div class="mb-3">
         <!-- Button or link for adding employees -->
-        <a href="#" class="btn btn-primary">Pridať nového zamestnanca</a>
+        <a href="/employees/form/add" class="btn btn-primary">Pridať nového zamestnanca</a>
     </div>
 
     <div class="table-responsive">
@@ -26,6 +26,7 @@
                 <th>ID</th>
                 <th>Meno</th>
                 <th>Priezvisko</th>
+                <th>Datum narodenia</th>
                 <th>Email</th>
                 <th>Telefonne cislo</th>
                 <th>Pracovna pozicia</th>
@@ -39,6 +40,7 @@
                 <td th:text="${employee.id}"></td>
                 <td th:text="${employee.firstName}"></td>
                 <td th:text="${employee.lastName}"></td>
+                <td th:text="${employee.birthDate}"></td>
                 <td th:text="${employee.email}"></td>
                 <td th:text="${employee.phone}"></td>
                 <td th:text="${employee.jobTitle}"></td>

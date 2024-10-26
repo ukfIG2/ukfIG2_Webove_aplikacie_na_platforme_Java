@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <title>Add Employee</title>
+</head>
+<body>
+<div class="container my-5">
+  <h2 class="mb-4">Add New Employee</h2>
+
+  <form th:action="@{/employees/save}" th:object="${employee}" method="post">
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
+    </div>
+
+    <!-- Birth Date -->
+    <div class="form-group">
+      <label for="birthDate">Birth Date</label>
+      <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number" required>
+    </div>
+
+    <!-- Job Title -->
+    <div class="form-group">
+      <label for="jobTitle">Job Title</label>
+      <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Enter Job Title" required>
+    </div>
+
+    <!-- Salary -->
+    <div class="form-group">
+      <label for="salary">Salary</label>
+      <input type="number" class="form-control" id="salary" name="salary" placeholder="Enter Salary" required>
+    </div>
+
+    <!-- Full Time -->
+    <div class="form-group">
+      <label for="fullTime">Full Time</label>
+      <select class="form-control" id="fullTime" name="fullTime" required>
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Add Employee</button>
+    <a href="/employees/list" class="btn btn-secondary ml-2">Cancel</a>
+  </form>
+</div>
+
+<!-- Bootstrap JavaScript (in comments) -->
+<!--
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+-->
+</body>
+</html>

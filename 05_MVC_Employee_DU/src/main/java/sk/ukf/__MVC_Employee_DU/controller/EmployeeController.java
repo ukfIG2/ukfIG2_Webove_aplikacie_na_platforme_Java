@@ -3,9 +3,7 @@ package sk.ukf.__MVC_Employee_DU.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import sk.ukf.__MVC_Employee_DU.entity.Employee;
 import sk.ukf.__MVC_Employee_DU.service.EmployeeService;
 
@@ -43,6 +41,32 @@ public class EmployeeController {
         model.addAttribute("employee", employee );
 
         return "employees/view";
+    }
+
+    @GetMapping("/form/add")
+    public String showFormForAdd(Model model) {
+
+        Employee employee = new Employee();
+
+        model.addAttribute("employee", employee);
+
+        return "employees/form";
+    }
+
+    @PostMapping("/save")
+    public String saveEmployee(@ModelAttribute("employee") Employee employee) {
+
+        empleyeeService.save(employee);
+
+        return "redirect:/employees/list";
+    }
+
+    @PostMapping("/delete")
+    public String deleteEmployee(@RequestParam("id") int id) {
+
+        empleyeeService.deleteById(id);
+
+        return "redirect:/employees/list";
     }
 
 }
