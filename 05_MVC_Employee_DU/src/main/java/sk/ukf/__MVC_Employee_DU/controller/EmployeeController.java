@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import sk.ukf.__MVC_Employee_DU.entity.Employee;
 import sk.ukf.__MVC_Employee_DU.service.EmployeeService;
 
@@ -32,6 +33,16 @@ public class EmployeeController {
 
         //Nacitat view s employees
         return "employees/list";
+    }
+
+    @GetMapping("/view")
+    public String viewEmployee(@RequestParam("id") int id, Model model) {
+
+        Employee employee = empleyeeService.findById(id);
+
+        model.addAttribute("employee", employee );
+
+        return "employees/view";
     }
 
 }

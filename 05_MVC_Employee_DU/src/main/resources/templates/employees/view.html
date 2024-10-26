@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>View Employee</title>
+</head>
+<body>
+<div class="container my-5">
+    <h2 class="mb-4">Employee Details</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Employee Details</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>ID:</strong> <span th:text="${employee.id}">ID</span></li>
+                <li class="list-group-item"><strong>First Name:</strong> <span th:text="${employee.firstName}">First Name</span></li>
+                <li class="list-group-item"><strong>Last Name:</strong> <span th:text="${employee.lastName}">Last Name</span></li>
+                <li class="list-group-item"><strong>Email:</strong> <span th:text="${employee.email}">Email</span></li>
+                <li class="list-group-item"><strong>Phone:</strong> <span th:text="${employee.phone}">Phone</span></li>
+                <li class="list-group-item"><strong>Job Title:</strong> <span th:text="${employee.jobTitle}">Job Title</span></li>
+                <li class="list-group-item"><strong>Salary:</strong> <span th:text="${employee.salary}">Salary</span></li>
+                <li class="list-group-item"><strong>Full Time:</strong> <span th:text="${employee.fullTime ? 'Yes' : 'No'}">Full Time Status</span></li>
+            </ul>
+
+            <a href="/employees/list" class="btn btn-secondary mt-3">Back to Employee List</a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JavaScript (in comments) -->
+<!--
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+-->
+</body>
+</html>
