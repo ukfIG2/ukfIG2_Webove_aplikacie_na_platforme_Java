@@ -36,12 +36,12 @@ public class Employee {
     private Double salary;
 
     @Column(name = "full_time")
-    private boolean fullTime;
+    private String fullTime;
 
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName, LocalDate birthDate, String email, String phone, String jobTitle, Double salary, boolean fullTime) {
+    public Employee(int id, String firstName, String lastName, LocalDate birthDate, String email, String phone, String jobTitle, Double salary, String fullTime) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -117,11 +117,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public boolean isFullTime() {
+    public String getFullTime() {
         return fullTime;
     }
 
-    public void setFullTime(boolean fullTime) {
+    public void setFullTime(String fullTime) {
         this.fullTime = fullTime;
     }
 }

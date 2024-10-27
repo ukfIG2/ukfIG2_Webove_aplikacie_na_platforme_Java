@@ -25,7 +25,7 @@
                 <li class="list-group-item"><strong>Telefonne cislo:</strong> <span th:text="${employee.phone}">Phone</span></li>
                 <li class="list-group-item"><strong>Pracovna pozicia:</strong> <span th:text="${employee.jobTitle}">Job Title</span></li>
                 <li class="list-group-item"><strong>Plat:</strong> <span th:text="${employee.salary}">Salary</span></li>
-                <li class="list-group-item"><strong>Plny uvazok?:</strong> <span th:text="${employee.fullTime ? 'Yes' : 'No'}">Full Time Status</span></li>
+                <li class="list-group-item"><strong>Plny uvazok?:</strong> <span th:text="${employee.fullTime}">Full Time Status</span></li>
             </ul>
 
             <a href="/employees/list" class="btn btn-secondary mt-3">Back to Employee List</a>

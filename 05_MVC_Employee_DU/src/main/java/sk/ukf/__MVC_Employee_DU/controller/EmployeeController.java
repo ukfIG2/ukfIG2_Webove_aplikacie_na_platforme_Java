@@ -13,7 +13,27 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    private EmployeeService empleyeeService;;
+    private EmployeeService empleyeeService;
+
+    List<String> jobTitleList = List.of(
+            "Software Engineer",
+            "Senior Software Engineer",
+            "Web Developer",
+            "Frontend Developer",
+            "Backend Developer",
+            "Full Stack Developer",
+            "Mobile Developer",
+            "QA Engineer",
+            "Data Scientist",
+            "DevOps Engineer"
+    );
+
+    List<String> radioButtonsList = List.of(
+            "Plny uvazok",
+            "Ciastocny uvazok",
+            "Dohoda",
+            "Stazista/Praktikant"
+    );
 
     @Autowired
     public EmployeeController(EmployeeService empleyeeService) {
@@ -49,6 +69,10 @@ public class EmployeeController {
         Employee employee = new Employee();
 
         model.addAttribute("employee", employee);
+
+        model.addAttribute("jobTitleList", jobTitleList);
+
+        model.addAttribute("radioButtonsList", radioButtonsList);
 
         return "employees/form";
     }

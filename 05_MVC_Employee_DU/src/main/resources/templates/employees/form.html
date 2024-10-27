@@ -44,10 +44,13 @@
       <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number" required>
     </div>
 
-    <!-- Job Title -->
+    <!-- Job Title Dropdown -->
     <div class="form-group">
       <label for="jobTitle">Pracovna pozicia</label>
-      <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Enter Job Title" required>
+      <select class="form-control" id="jobTitle" name="jobTitle" th:field="*{jobTitle}" required>
+        <option value="">-- Vyberte pozíciu --</option>
+        <option th:each="title : ${jobTitleList}" th:value="${title}" th:text="${title}"></option>
+      </select>
     </div>
 
     <!-- Salary -->
@@ -56,13 +59,15 @@
       <input type="number" class="form-control" id="salary" name="salary" placeholder="Enter Salary" required>
     </div>
 
-    <!-- Full Time -->
+    <!-- Full Time Radio Buttons -->
     <div class="form-group">
-      <label for="fullTime">Plny uvazok?</label>
-      <select class="form-control" id="fullTime" name="fullTime" required>
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-      </select>
+      <label>Typ uvazku</label>
+      <div th:each="option : ${radioButtonsList}">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" th:field="*{fullTime}" th:value="${option}" id="fullTimeOption" required>
+          <label class="form-check-label" th:for="fullTimeOption" th:text="${option}"></label>
+        </div>
+      </div>
     </div>
 
     <!-- Submit Button -->
