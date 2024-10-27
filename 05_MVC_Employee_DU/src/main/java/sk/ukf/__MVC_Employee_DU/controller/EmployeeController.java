@@ -1,6 +1,7 @@
 package sk.ukf.__MVC_Employee_DU.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +16,10 @@ public class EmployeeController {
 
     private EmployeeService empleyeeService;
 
-    List<String> jobTitleList = List.of(
-            "Software Engineer",
-            "Senior Software Engineer",
-            "Web Developer",
-            "Frontend Developer",
-            "Backend Developer",
-            "Full Stack Developer",
-            "Mobile Developer",
-            "QA Engineer",
-            "Data Scientist",
-            "DevOps Engineer"
-    );
+    @Value("${jobTitles}")
+    private List<String> jobTitleList;
 
-    List<String> radioButtonsList = List.of(
+    private List<String> radioButtonsList = List.of(
             "Plny uvazok",
             "Ciastocny uvazok",
             "Dohoda",
