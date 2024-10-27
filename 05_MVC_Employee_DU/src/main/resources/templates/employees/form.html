@@ -16,19 +16,19 @@
   <form th:action="@{/employees/save}" th:object="${employee}" method="post">
     <!-- First Name -->
     <div class="form-group">
-      <label for="firstName">First Name</label>
+      <label for="firstName">Meno</label>
       <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
     </div>
 
     <!-- Last Name -->
     <div class="form-group">
-      <label for="lastName">Last Name</label>
+      <label for="lastName">Priezvisko</label>
       <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
     </div>
 
     <!-- Birth Date -->
     <div class="form-group">
-      <label for="birthDate">Birth Date</label>
+      <label for="birthDate">Datum narodenia</label>
       <input type="date" class="form-control" id="birthDate" name="birthDate" required>
     </div>
 
@@ -40,25 +40,25 @@
 
     <!-- Phone -->
     <div class="form-group">
-      <label for="phone">Phone</label>
+      <label for="phone">Telefonne cislo</label>
       <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number" required>
     </div>
 
     <!-- Job Title -->
     <div class="form-group">
-      <label for="jobTitle">Job Title</label>
+      <label for="jobTitle">Pracovna pozicia</label>
       <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Enter Job Title" required>
     </div>
 
     <!-- Salary -->
     <div class="form-group">
-      <label for="salary">Salary</label>
+      <label for="salary">Plat</label>
       <input type="number" class="form-control" id="salary" name="salary" placeholder="Enter Salary" required>
     </div>
 
     <!-- Full Time -->
     <div class="form-group">
-      <label for="fullTime">Full Time</label>
+      <label for="fullTime">Plny uvazok?</label>
       <select class="form-control" id="fullTime" name="fullTime" required>
         <option value="true">Yes</option>
         <option value="false">No</option>

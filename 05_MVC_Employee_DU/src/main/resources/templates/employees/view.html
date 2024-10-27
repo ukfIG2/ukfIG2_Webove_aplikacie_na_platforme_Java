@@ -18,16 +18,24 @@
             <h5 class="card-title">Employee Details</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>ID:</strong> <span th:text="${employee.id}">ID</span></li>
-                <li class="list-group-item"><strong>First Name:</strong> <span th:text="${employee.firstName}">First Name</span></li>
-                <li class="list-group-item"><strong>Last Name:</strong> <span th:text="${employee.lastName}">Last Name</span></li>
+                <li class="list-group-item"><strong>Meno:</strong> <span th:text="${employee.firstName}">First Name</span></li>
+                <li class="list-group-item"><strong>Priezvisko:</strong> <span th:text="${employee.lastName}">Last Name</span></li>
+                <li class="list-group-item"><strong>Datum narodenia:</strong> <span th:text="${employee.birthDate}">Birth Date</span></li>
                 <li class="list-group-item"><strong>Email:</strong> <span th:text="${employee.email}">Email</span></li>
-                <li class="list-group-item"><strong>Phone:</strong> <span th:text="${employee.phone}">Phone</span></li>
-                <li class="list-group-item"><strong>Job Title:</strong> <span th:text="${employee.jobTitle}">Job Title</span></li>
-                <li class="list-group-item"><strong>Salary:</strong> <span th:text="${employee.salary}">Salary</span></li>
-                <li class="list-group-item"><strong>Full Time:</strong> <span th:text="${employee.fullTime ? 'Yes' : 'No'}">Full Time Status</span></li>
+                <li class="list-group-item"><strong>Telefonne cislo:</strong> <span th:text="${employee.phone}">Phone</span></li>
+                <li class="list-group-item"><strong>Pracovna pozicia:</strong> <span th:text="${employee.jobTitle}">Job Title</span></li>
+                <li class="list-group-item"><strong>Plat:</strong> <span th:text="${employee.salary}">Salary</span></li>
+                <li class="list-group-item"><strong>Plny uvazok?:</strong> <span th:text="${employee.fullTime ? 'Yes' : 'No'}">Full Time Status</span></li>
             </ul>
 
             <a href="/employees/list" class="btn btn-secondary mt-3">Back to Employee List</a>
+
+            <!-- Delete button in a form -->
+            <form th:action="@{/employees/delete}" method="post" class="d-inline">
+                <input type="hidden" name="id" th:value="${employee.id}">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this employee?')">Delete</button>
+            </form>
+
         </div>
     </div>
 </div>
