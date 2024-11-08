@@ -57,7 +57,7 @@
                         </form>
 
                         <!-- Edit link button -->
-                        <a href="#" th:href="@{/employees/edit/{id}(id=${employee.id})}" class="btn btn-sm btn-warning">Edit</a>
+                        <a th:href="@{/employees/form/edit(id=${employee.id})}" class="btn btn-sm btn-warning">Edit</a>
 
                         <!-- Delete button in a form -->
                         <form th:action="@{/employees/delete}" method="post" class="d-inline">

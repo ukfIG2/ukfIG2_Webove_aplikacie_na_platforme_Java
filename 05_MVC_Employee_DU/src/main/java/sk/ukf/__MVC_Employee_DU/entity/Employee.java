@@ -34,7 +34,7 @@ public class Employee {
     //@Email(message = "Email should be valid")
     @Pattern(
             regexp = "^[\\w\\d._%+-]+@[\\w\\d.-]+\\.[A-Za-z]{2,6}$",
-            message = "Email, môže mať iba písmena, čísla a '_'. Email, musí mať formu použivateľské meno'@'doména'.'krajina alebo ina koncovka."
+            message = "Email, môže mať iba písmena, čísla a \'_\'. Email, musí mať formu použivateľské meno'@'doména'.'krajina alebo ina koncovka."
     )
     @Size(max = 100, message = "Email musí mať menej ako 100 znakov.")
     @Column(name = "email")

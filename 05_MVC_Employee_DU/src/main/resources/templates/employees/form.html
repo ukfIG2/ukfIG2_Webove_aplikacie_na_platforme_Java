@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
   <title>Add Employee</title>
 </head>
 <body>
@@ -14,49 +11,60 @@
   <h2 class="mb-4">Add New Employee</h2>
 
   <form th:action="@{/employees/save}" th:object="${employee}" method="post">
+
+    <!-- Hidden field for updating an existing record -->
+    <input type="hidden" th:field="*{id}"/>
+
     <!-- First Name -->
     <div class="form-group">
       <label for="firstName">Meno</label>
-      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
+      <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="Enter First Name" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
     </div>
 
     <!-- Last Name -->
     <div class="form-group">
       <label for="lastName">Priezvisko</label>
-      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
+      <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="Enter Last Name" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
     </div>
 
     <!-- Birth Date -->
     <div class="form-group">
       <label for="birthDate">Datum narodenia</label>
-      <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+      <input type="date" class="form-control" id="birthDate" th:field="*{birthDate}" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></div>
     </div>
 
     <!-- Email -->
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+      <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter Email" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
     </div>
 
     <!-- Phone -->
     <div class="form-group">
       <label for="phone">Telefonne cislo</label>
-      <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number" required>
+      <input type="text" class="form-control" id="phone" th:field="*{phone}" placeholder="Enter Phone Number" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
     </div>
 
     <!-- Job Title Dropdown -->
     <div class="form-group">
       <label for="jobTitle">Pracovna pozicia</label>
-      <select class="form-control" id="jobTitle" name="jobTitle" th:field="*{jobTitle}" required>
+      <select class="form-control" id="jobTitle" th:field="*{jobTitle}" required>
         <option value="">-- Vyberte pozíciu --</option>
         <option th:each="title : ${jobTitleList}" th:value="${title}" th:text="${title}"></option>
       </select>
+      <div class="text-danger" th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}"></div>
     </div>
 
     <!-- Salary -->
     <div class="form-group">
       <label for="salary">Plat</label>
-      <input type="number" class="form-control" id="salary" name="salary" placeholder="Enter Salary" required>
+      <input type="number" class="form-control" id="salary" th:field="*{salary}" placeholder="Enter Salary" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
     </div>
 
     <!-- Full Time Radio Buttons -->
@@ -68,6 +76,7 @@
           <label class="form-check-label" th:for="fullTimeOption" th:text="${option}"></label>
         </div>
       </div>
+      <div class="text-danger" th:if="${#fields.hasErrors('fullTime')}" th:errors="*{fullTime}"></div>
     </div>
 
     <!-- Submit Button -->
@@ -76,7 +85,8 @@
   </form>
 </div>
 
-<!-- Bootstrap JavaScript (in comments) -->
+<!-- Optional Bootstrap JavaScript -->
+<!-- Uncomment if needed -->
 <!--
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
