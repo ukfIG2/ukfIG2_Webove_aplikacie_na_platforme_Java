@@ -70,4 +70,19 @@ public class StudentController {
         studentService.deleteById(id);
         return "redirect:/students/list";
     }
+
+    @GetMapping("/form/update")
+    public String showFormForUpdate(@RequestParam("studentId") int id, Model model) {
+
+        // Získať študenta zo služby
+        Student student = studentService.findById(id);
+
+        // Nastaviť študenta ako model atribút pre predvyplnenie formulára
+        model.addAttribute("student", student);
+
+        // Poslať na náš formulár
+        return "students/form";
+    }
+
+
 }

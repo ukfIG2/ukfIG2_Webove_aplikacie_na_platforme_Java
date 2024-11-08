@@ -25,13 +25,16 @@
 <div class="container">
 
   <div class="header">
-    <h2>UBIAN - Pridať nového študenta</h2>
+    <h2 th:text="${student.id} != 0 ? 'UBIAN - Upraviť existujúceho študenta' : 'UBIAN - Pridať nového študenta'"></h2>
   </div>
 
   <form th:action="@{/students/save}" th:object="${student}" method="post">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Informácie o študentovi</h5>
+
+        <!-- Skryté pole formulára pre zabezpečenie update záznamu -->
+        <input type="hidden" th:field="*{id}"/>
 
         <div class="row mb-3">
           <div class="col-md-6">
@@ -49,7 +52,8 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <label for="birthDate" class="form-label">Dátum narodenia</label>
-            <input type="date" class="form-control" id="birthDate" th:field="*{birthDate}" required>
+            <input type="date" class="form-control" id="birthDate"
+                   th:field="*{birthDate}" required>
           </div>
           <div class="col-md-6">
             <label for="gender" class="form-label">Pohlavie</label>
@@ -85,7 +89,8 @@
       </div>
       <div class="card-footer">
         <a th:href="@{/students/list}" class="btn btn-secondary">Späť na zoznam</a>
-        <button type="submit" class="btn btn-primary">Pridať študenta</button>
+        <button type="submit" class="btn btn-primary"
+                th:text="${student.id} != 0 ? 'Upraviť študenta' : 'Pridať študenta'"></button>
       </div>
     </div>
   </form>
